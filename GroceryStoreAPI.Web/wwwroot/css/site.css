@@ -1,0 +1,203 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+body{
+    background-color:#e1e1e1;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.navbar-brand {
+    display:block;
+    margin: 0 auto;
+    text-align: center;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+.customer-name{
+    display:inline-block;
+    min-width: 60px;
+}
+.customer-editor{
+    max-width: 600px;
+    margin: 0 auto;
+}
+table{
+    background-color:#fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+#customer-table td:last-child {
+    text-align: right;
+}
+
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-container {
+    width: 300px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+    margin-top: 0;
+    color: #42b983;
+}
+
+.modal-body {
+    margin: 20px 0;
+}
+
+.modal-default-button {
+    display: block;
+    margin-top: 1rem;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+    .modal-enter .modal-container,
+    .modal-leave-active .modal-container {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+button {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #fff;
+    margin: 15px 0;
+    height: 35px;
+    padding: 0 25px;
+}
+.customers-head{
+    font-weight:bold;
+    color:#888;
+}
+.customer {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding: 8px 16px;
+}
+
+    .customer > div, .customer > a {
+        flex: 1 1;
+    }
+
+.customer-id {
+    max-width: 35px;
+}
+
+.customer > a {
+    max-width: 60px;
+}
+
+.customer:last-child {
+    border: none;
+}
+
+.customer:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+div#customers {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 6px;
+    background: #f2f2f2;
+}

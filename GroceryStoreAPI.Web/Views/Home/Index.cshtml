@@ -1,0 +1,183 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    List<Customer> customers = ViewBag.Customers;
+}
+<script type="text/x-template" id="modal-template">
+    <transition name="modal">
+        <div class="modal-mask">
+            <div class="modal-wrapper">
+                <div class="modal-container">
+ 
+                    <div class="modal-body">
+                        <slot name="body">
+                            Name
+                            <input v-if="!$root.editingCustomer" type="text" v-model="newCustomer.name" @@keypress.enter="didAddCustomer" />
+                            <input v-if="$root.editingCustomer" type="text" v-model="$root.editingCustomer.name" @@keypress.enter="didAddCustomer" />
+                        </slot>
+                    </div>
+
+                    <div class="modal-footer">
+                        <slot name="footer">
+                            <button v-if="!$root.editingCustomer" class="modal-default-button" @@click="didAddCustomer">
+                                Add
+                            </button>
+                            <button v-if="$root.editingCustomer" class="modal-default-button" @@click="didUpdateCustomer">
+                                Update
+                            </button>
+                            <button class="modal-default-button" @@click="$emit('close')">
+                                Cancel
+                            </button>
+                        </slot>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
+</script>
+
+<div class="customer-editor" id="customer-app">
+    <div id="customers">
+        <div class="customer customers-head">
+            <div class="customer-id">Id</div>
+            <div>Name</div>
+          
+        </div>
+        <div class="customer" v-for="customer in customers" :key="customer.id">
+            <div class="customer-id">{{customer.id}}</div> 
+            <div class="customer-name">{{customer.name}}</div> 
+
+            <a class="customer-action" href="#" @@click="startEditCustomer(customer)">edit</a> 
+            <a class="customer-action" href="#" @@click="deleteCustomer(customer.id)">delete</a>
+        </div>
+    </div>
+    <div class="customer-actions">
+        <button @@click="startAddCustomer">Add Customer</button>
+    </div>
+
+    <modal v-if="showModal" @@close="showModal = false">
+        <!--
+          you can use custom content here to overwrite
+          default content
+        -->
+        <template v-slot:header>
+        </template>
+    </modal>
+
+
+
+</div>
+
+
+@section Scripts{
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+        const events = {
+            data() {
+                return {
+                    customers: [],
+                    showModal: false,
+                    editingCustomer: null
+                }
+            },
+            mounted() {
+                this.getAllCustomers();
+            },
+            methods: {
+                deleteCustomer: function (id) {
+                    var self = this;
+                    fetch("/webservice/customers/delete?id=" + id)
+                        .then(response => {
+                            if (response.ok) {
+                                response.json().then(data => {
+                                    if (data) {
+                                        self.getAllCustomers();
+                                    }
+                                });
+                            } else {
+                                alert("Server returned " + response.status + " : " + response.statusText);
+                            }
+                        });
+                },
+                startEditCustomer: function (customer) {
+                    this.editingCustomer = customer;
+                    this.showModal = true;
+                },
+                startAddCustomer: function () {
+                    this.editingCustomer = null;
+                    this.showModal = true;
+                },
+                updateCustomer: function () {
+                    var self = this;
+                    fetch("/webservice/customers/update?id=" + self.editingCustomer.id + "&name=" + self.editingCustomer.name)
+                        .then(response => {
+                            if (response.ok) {
+                                response.json().then(data => {
+                                    if (data) {
+                                        self.getAllCustomers();
+                                    }
+                                });
+                            } else {
+                                alert("Server returned " + response.status + " : " + response.statusText);
+                            }
+                        });
+                },
+                getAllCustomers: function (id) {
+                    var self = this;
+                    fetch("/webservice/customers/getall")
+                        .then(response => {
+                            if (response.ok) {
+                                response.json().then(data => {
+                                    self.customers = data;
+                                });
+                            } else {
+                                alert("Server returned " + response.status + " : " + response.statusText);
+                            }
+                        });
+                },
+                addCustomer: function (name) {
+                    var self = this;
+                    fetch("/webservice/customers/add?name=" + name)
+                        .then(response => {
+                            if (response.ok) {
+                                response.json().then(data => {
+                                    if (data) {
+                                        self.getAllCustomers();
+                                    }
+                                });
+                            } else {
+                                alert("Server returned " + response.status + " : " + response.statusText);
+                            }
+                        });
+                }
+            }
+        };
+
+        var app = Vue.createApp(events);
+
+        app.component("modal", {
+            template: "#modal-template", 
+            data() {
+                return {
+                    newCustomer: { name: '' }
+                }
+            },
+            methods: {
+                didAddCustomer: function () {
+                    this.$root.addCustomer(this.newCustomer.name);
+                    this.newCustomer.name = '';
+                    this.$emit('close');
+                },
+                didUpdateCustomer: function () {
+                    this.$root.updateCustomer(); 
+                    this.$emit('close');
+                }
+            }
+        })
+
+        app.mount('#customer-app');
+
+
+    </script>
+
+}
